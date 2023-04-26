@@ -5,7 +5,15 @@ require :
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   TargetRubyVersion: 3.0.3
+
+  Exclude:
+    - 'vendor/**/*'
+    # - 'spec/**/*'
+    - 'bin/**/*'
+    - 'db/*.rb'
+    - 'rubocop_pre_commit_hook.rb'
 
 Style/StringLiterals:
   Enabled: false
