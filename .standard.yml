@@ -1,0 +1,5 @@
+ignore:
+  - 'config/environments/production.rb':
+    - Style/GlobalStdStream
+  - 'rubocop_pre_commit_hook.rb':
+    - Style/GlobalStdStream

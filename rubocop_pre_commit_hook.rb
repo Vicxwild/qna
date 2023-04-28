@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-ADDED_OR_MODIFIED = /^\s*(A|AM|M)/.freeze
+ADDED_OR_MODIFIED = /^\s*(A|AM|M)/
 
-changed_files = `git status --porcelain`.split(/\n/)
-unstaged_files = `git ls-files -m`.split(/\n/)
+changed_files = `git status --porcelain`.split("\n")
+unstaged_files = `git ls-files -m`.split("\n")
 
 changed_files = changed_files.select { |f| f =~ ADDED_OR_MODIFIED }
 changed_files = changed_files.map { |f| f.split(" ")[1] }
@@ -19,9 +19,9 @@ success = system(%(
   rubocop #{changed_files}
 ))
 
-STDIN.reopen('/dev/tty')
+STDIN.reopen("/dev/tty")
 
 if success == false
   puts "Would you like to continue press 'any key' or 'n/N' to halt? "
-  exit(1) if %w(N n).include?(gets.chomp)
+  exit(1) if %w[N n].include?(gets.chomp)
 end
