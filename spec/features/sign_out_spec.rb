@@ -5,14 +5,11 @@ feature "User can sign out", "
   As authenticated user
   I'd like to be able to log out
 " do
-  given(:user) { User.create!(email: "user@test.com", password: "12345678") }
-
-  background { visit new_user_session_path }
+  given(:user) { create(:user) }
 
   scenario "Authenticated user tries to log out" do
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-    click_on "Log in"
+    sign_in(user)
+
     click_on "Log out"
 
     expect(page).to have_content "Signed out successfully."

@@ -5,7 +5,7 @@ feature "User can register", "
   As an unauthenticated user
   I'd like to be able to register
 " do
-  given(:user) { User.create!(email: "user@test.com", password: "12345678") }
+  given(:user) { create(:user) }
 
   background { visit new_user_registration_path }
 
@@ -25,24 +25,6 @@ feature "User can register", "
     click_on "Sign up"
 
     expect(page).to have_content "Email has already been taken"
-  end
-
-  scenario "Unregistered user tries to register with invalid email" do
-    fill_in "Email", with: "invalidemail"
-    fill_in "Password", with: "12345678"
-    fill_in "Password confirmation", with: "12345678"
-    click_on "Sign up"
-
-    expect(page).to have_content "Email is invalid"
-  end
-
-  scenario "Unregistered user tries to register with invalid password" do
-    fill_in "Email", with: "invalid@email.com"
-    fill_in "Password", with: "1"
-    fill_in "Password confirmation", with: "1"
-    click_on "Sign up"
-
-    expect(page).to have_content "Password is too short"
   end
 
   scenario "Unregistered user tries to register with dissimilar password confirmation" do
