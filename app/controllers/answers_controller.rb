@@ -5,17 +5,14 @@ class AnswersController < ApplicationController
     @answer = find_answer
   end
 
-  def new
-    @answer = current_question.answers.new
-  end
-
   def create
     @answer = current_question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to question_answer_path(@current_question, @answer)
+      redirect_to question_path(current_question), notice: "Your answer to the question successfully created."
     else
-      render :new
+      @question = current_question
+      render "questions/show"
     end
   end
 
