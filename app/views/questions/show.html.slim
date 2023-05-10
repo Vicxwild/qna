@@ -2,7 +2,9 @@
 
 h1 = @question.title
 p = @question.body
-= link_to "Delete question", question_path(@question), method: :delete
+
+-if current_user == @question.author
+  = link_to "Delete question", question_path(@question), method: :delete
 
 = render partial: 'answers/answer', collection: @answers
 
