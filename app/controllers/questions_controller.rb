@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find(params[:id])
+    @question = find_question
     @answers = @question.answers
     @answer = Answer.new
   end
@@ -27,7 +27,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
+    @question = find_question
 
     if @question.author == current_user
       @question.destroy
@@ -38,6 +38,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def find_question
+    Question.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :body)
