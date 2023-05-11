@@ -5,7 +5,8 @@ feature "User can view question with answers", "
   As an any type of user
   I'd loke to be able to view answers along with question
 " do
-  given(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, author: user) }
   given(:answers) { create_list(:answer, 3, question: question) }
 
   scenario "User tries to watch question with answers" do
