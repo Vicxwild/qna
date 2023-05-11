@@ -2,18 +2,26 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :show
   helper_method :current_question
 
-  def show
-    @answer = find_answer
-  end
-
   def create
     @answer = current_question.answers.new(answer_params)
+    @answer.author = current_user
 
     if @answer.save
       redirect_to question_path(current_question), notice: "Your answer to the question successfully created."
     else
       @question = current_question
       render "questions/show"
+    end
+  end
+
+  def destroy
+    @answer = find_answer
+
+    if @answer.author == current_user
+      @answer.destroy
+      redirect_to question_path(current_question), notice: "Your answer successfully deleted."
+    else
+      redirect_to question_path(current_question), notice: "You can only delete your own answers."
     end
   end
 

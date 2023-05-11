@@ -7,7 +7,7 @@ feature "User can view question with answers", "
 " do
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
-  given(:answers) { create_list(:answer, 3, question: question) }
+  given!(:answers) { create_list(:answer, 3, question: question, author: user) }
 
   scenario "User tries to watch question with answers" do
     visit question_path(question)
