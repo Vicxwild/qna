@@ -26,7 +26,7 @@ feature "User can create answer to question", "
       end
     end
 
-    scenario "tries to answer question with errors" do
+    scenario "tries to answer question with errors", js: true do
       click_on "Answer"
 
       expect(page).to have_content "Body can't be blank"
