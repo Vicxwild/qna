@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
 
       context "with valid attributes" do
         it "saves a new answer in the database" do
-          expect { post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user} }.to change(Answer, :count).by(1)
+          expect { post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user} }.to change(question.answers, :count).by(1)
         end
 
         it "re-renders question show view" do

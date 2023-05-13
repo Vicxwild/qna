@@ -10,8 +10,12 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render "shared/nav" unless current_page?(new_user_session_path)
-    p.notice
-      = notice
-    p.alert
-      = alert
-    = yield
+
+    .container
+      .row
+        .col-lg-9
+          p.notice
+            = notice
+          p.alert
+            = alert
+          = yield

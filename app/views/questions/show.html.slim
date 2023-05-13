@@ -1,4 +1,4 @@
-= render "shared/errors", resource: @question
+= render "shared/errors", resource: @answer
 
 h1 = @question.title
 p = @question.body
@@ -6,6 +6,7 @@ p = @question.body
 -if current_user == @question.author
   = link_to "Delete question", question_path(@question), method: :delete
 
-= render partial: 'answers/answer', collection: @answers
+.answers
+  = render partial: 'answers/answer', collection: @answers
 
 = render "answers/form"
