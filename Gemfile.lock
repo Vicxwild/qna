@@ -285,9 +285,6 @@ GEM
     thor (1.2.1)
     tilt (2.1.0)
     timeout (0.3.2)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
@@ -317,6 +314,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
@@ -341,7 +339,6 @@ DEPENDENCIES
   slim-rails
   spring
   standard
-  turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers
@@ -351,4 +348,4 @@ RUBY VERSION
    ruby 3.0.3p157
 
 BUNDLED WITH
-   2.3.7
+   2.4.9
