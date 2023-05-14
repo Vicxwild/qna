@@ -8,7 +8,7 @@ feature "User can create answer to question", "
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
 
-  describe "Authenticated user" do
+  describe "Authenticated user", js: true do
     background do
       sign_in(user)
 
@@ -26,7 +26,7 @@ feature "User can create answer to question", "
       end
     end
 
-    scenario "tries to answer question with errors", js: true do
+    scenario "tries to answer question with errors" do
       click_on "Answer"
 
       expect(page).to have_content "Body can't be blank"

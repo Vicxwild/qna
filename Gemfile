@@ -24,7 +24,7 @@ gem "jbuilder", "~> 2.7"
 
 # UI
 gem "jquery-rails"
-gem "bootstrap", "~> 5.0.00"
+gem "bootstrap", "~> 5.2.00"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
