@@ -19,7 +19,6 @@ feature "User can create answer to question", "
       fill_in "Body", with: "Good answer"
       click_on "Answer"
 
-      expect(page).to have_content "Your answer to the question successfully created."
       expect(current_path).to eq question_path(question)
       within ".answers" do
         expect(page).to have_content "Good answer"

@@ -3,12 +3,9 @@ class AnswersController < ApplicationController
   helper_method :current_question
 
   def create
-    @answer = current_question.answers.new(answer_params)
+    @answer = current_question.answers.create(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to question_path(current_question), notice: "Your answer to the question successfully created."
-    end
+    @answer.save
   end
 
   def destroy

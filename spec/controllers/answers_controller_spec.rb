@@ -10,23 +10,23 @@ RSpec.describe AnswersController, type: :controller do
 
       context "with valid attributes" do
         it "saves a new answer in the database" do
-          expect { post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user} }.to change(question.answers, :count).by(1)
+          expect { post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user}, format: :js }.to change(question.answers, :count).by(1)
         end
 
-        it "re-renders question show view" do
-          post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user}
-          expect(response).to redirect_to question_path(question)
+        it "re-renders template create" do
+          post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user}, format: :js
+          expect(response).to render_template :create
         end
       end
 
       context "with invalid attributes" do
         it "does not save the answer" do
-          expect { post :create, params: {answer: attributes_for(:answer, :invalid), question_id: question, author_id: user} }.to_not change(Answer, :count)
+          expect { post :create, params: {answer: attributes_for(:answer, :invalid), question_id: question, author_id: user}, format: :js }.to_not change(Answer, :count)
         end
 
-        it "re-renders question show view" do
-          post :create, params: {answer: attributes_for(:answer, :invalid), question_id: question, author_id: user}
-          expect(response).to render_template "questions/show"
+        it "re-renders create template" do
+          post :create, params: {answer: attributes_for(:answer, :invalid), question_id: question, author_id: user}, format: :js
+          expect(response).to render_template :create
         end
       end
     end
