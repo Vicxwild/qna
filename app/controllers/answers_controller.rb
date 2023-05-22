@@ -8,6 +8,11 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
+  def update
+    @answer = find_answer
+    @answer.update(answer_params)
+  end
+
   def destroy
     @answer = find_answer
 
