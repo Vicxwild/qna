@@ -9,12 +9,13 @@ feature "User can edit his answer", "
   given(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, question: question, author: user) }
 
-  describe "Authenticated user" do
-    background { sign_in(user) }
-
-    scenario "edits his answer", js: true do
+  describe "Authenticated user", js: true do
+    background do
+      sign_in(user)
       visit question_path(question)
+    end
 
+    scenario "edits his answer" do
       click_on "Edit"
 
       within ".answers" do
@@ -27,7 +28,19 @@ feature "User can edit his answer", "
       end
     end
 
-    scenario "edits his answer with errors"
+    scenario "edits his answer with errors" do
+      click_on "Edit"
+
+      within ".answers" do
+        fill_in "Your answer", with: ""
+        click_on "Save"
+
+        expect(page).to have_content "Body can't be blank"
+        expect(page).to have_content answer.body
+        expect(page).to have_selector "textarea"
+      end
+    end
+
     scenario "tries to edit other user's answer"
   end
 

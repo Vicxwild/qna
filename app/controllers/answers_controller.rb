@@ -3,8 +3,7 @@ class AnswersController < ApplicationController
   helper_method :current_question
 
   def create
-    @answer = current_question.answers.create(answer_params)
-    @answer.author = current_user
+    @answer = current_question.answers.create(answer_params.merge(author: current_user))
     @answer.save
   end
 

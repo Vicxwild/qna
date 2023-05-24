@@ -5,9 +5,6 @@ p = @question.body
   = link_to "Delete question", question_path(@question), method: :delete
 
 .answers
-  = render partial: 'answers/answer', collection: @answers
-
-.answer-errors
-  = render "shared/errors", resource: @answer
+  = render @question.answers
 
 = render "answers/form"
