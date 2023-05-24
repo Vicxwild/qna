@@ -8,6 +8,7 @@ feature "User can edit his answer", "
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, question: question, author: user) }
+  given(:user_2) { create(:user) }
 
   describe "Authenticated user", js: true do
     background do
@@ -40,8 +41,13 @@ feature "User can edit his answer", "
         expect(page).to have_selector "textarea"
       end
     end
+  end
 
-    scenario "tries to edit other user's answer"
+  scenario "Authenticated user can't edit someone else answer" do
+    sign_in(user_2)
+    visit question_path(question)
+
+    expect(page).to_not have_link "Edit"
   end
 
   scenario "Unauthenticated user can't edit answer" do
