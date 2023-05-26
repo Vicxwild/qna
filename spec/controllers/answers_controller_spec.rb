@@ -63,16 +63,16 @@ RSpec.describe AnswersController, type: :controller do
           end
         end
       end
-    end
 
-    context "Unauthenticated user" do
-      it "doesn't save a new answer in the database" do
-        expect { post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user} }.to_not change(Answer, :count)
-      end
+      context "Unauthenticated user" do
+        it "not changes answer attributes" do
+          expect { patch :update, params: {id: answer, question_id: question, answer: {body: "new body"}} }.to_not change(answer, :body)
+        end
 
-      it "redirects to sign in page" do
-        post :create, params: {answer: attributes_for(:answer), question_id: question, author_id: user}
-        expect(response).to redirect_to new_user_session_path
+        it "redirects to sign in page" do
+          patch :update, params: {id: answer, question_id: question, answer: {body: "new body"}}
+          expect(response).to redirect_to new_user_session_path
+        end
       end
     end
   end

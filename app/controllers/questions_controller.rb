@@ -26,6 +26,11 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    @question = find_question
+    @question.update(question_params) if @question.author == current_user
+  end
+
   def destroy
     @question = find_question
 

@@ -1,8 +1,19 @@
 h1 = @question.title
 p = @question.body
 
--if current_user == @question.author
-  = link_to "Delete question", question_path(@question), method: :delete
+.question-control
+  -if current_user == @question.author
+    p= link_to "Edit question"
+    p= link_to "Delete question", question_path(@question), method: :delete
+
+    = form_with model: @question, local: false do |f|
+      p
+        = f.label :title
+        = f.text_field :title
+      p
+        = f.label :body
+        = f.text_area :body
+      p= f.submit "Save"
 
 .answers
   = render @question.answers

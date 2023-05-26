@@ -9,7 +9,6 @@ class AnswersController < ApplicationController
 
   def update
     @answer = find_answer
-
     @answer.update(answer_params) if @answer.author == current_user
   end
 
