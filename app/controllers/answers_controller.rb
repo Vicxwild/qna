@@ -14,13 +14,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer = find_answer
-
-    if @answer.author == current_user
-      @answer.destroy
-      redirect_to question_path(current_question), notice: "Your answer successfully deleted."
-    else
-      redirect_to question_path(current_question), notice: "You can only delete your own answers."
-    end
+    @answer.destroy if @answer.author == current_user
   end
 
   private

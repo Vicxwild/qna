@@ -2,7 +2,7 @@ div id="answer_#{answer.id}"
   li= answer.body
 
   -if current_user == answer.author
-    li= link_to "Delete answer", question_answer_path(answer.question, answer), method: :delete
+    li= link_to "Delete answer", question_answer_path(answer.question, answer), remote: true, method: :delete
     li= link_to "Edit", "#", class: "edit-answer-link", data: { answer_id: answer.id }
 
   div class=["answer-error-#{answer.id}"]

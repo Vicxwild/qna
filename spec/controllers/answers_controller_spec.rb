@@ -81,15 +81,25 @@ RSpec.describe AnswersController, type: :controller do
     context "Authenticated user" do
       before { login(user) }
 
-      let!(:answer) { create(:answer, question: question, author: user) }
+      context "user's answers" do
+        let!(:answer) { create(:answer, question: question, author: user) }
 
-      it "deletes the answer" do
-        expect { delete :destroy, params: {id: answer, question_id: question, author_id: user} }.to change(Answer, :count).by(-1)
+        it "deletes the answer" do
+          expect { delete :destroy, params: {id: answer, question_id: question, author_id: user}, format: :js }.to change(Answer, :count).by(-1)
+        end
+
+        it "render destroy" do
+          delete :destroy, params: {id: answer, question_id: question, author_id: user}, format: :js
+          expect(response).to render_template :destroy
+        end
       end
 
-      it "re-renders question path" do
-        delete :destroy, params: {id: answer, question_id: question, author_id: user}
-        expect(response).to redirect_to question_path(question)
+      context "other user answers" do
+        let!(:answer) { create(:answer, question: question, author: create(:user)) }
+
+        it "can't delete the question" do
+          expect { delete :destroy, params: {id: answer, question_id: question, author_id: user}, format: :js }.to_not change(Answer, :count)
+        end
       end
     end
 
