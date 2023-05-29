@@ -17,6 +17,11 @@ class AnswersController < ApplicationController
     @answer.destroy if @answer.author == current_user
   end
 
+  def best
+    @answer = find_answer
+    @answer.set_the_best if current_question.author == current_user
+  end
+
   private
 
   def current_question

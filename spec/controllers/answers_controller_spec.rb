@@ -116,4 +116,61 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe "PATCH #best" do
+    let!(:answer) { create(:answer, question: question, author: user) }
+
+    context "Authenticated user" do
+      context "user's question" do
+        before { login(user) }
+
+        it "can select the best answer" do
+          patch :best, params: {id: answer, question_id: question}, format: :js
+          answer.reload
+          expect(answer.best).to eq true
+        end
+
+        it "renders best best template" do
+          patch :best, params: {id: answer, question_id: question}, format: :js
+          expect(response).to render_template :best
+        end
+      end
+
+      context "other user's question" do
+        before { login create(:user) }
+
+        it "can select the best answer" do
+          patch :best, params: {id: answer, question_id: question}, format: :js
+          answer.reload
+          expect(answer.best).to eq false
+        end
+      end
+
+      context "can select the best answer if there is already the best answer" do
+        let!(:answer_2) { create(:answer, question: question, author: user, best: true) }
+
+        before { login(user) }
+
+        it "can select the best answer one more time" do
+          patch :best, params: {id: answer, question_id: question}, format: :js
+          answer.reload
+          expect(answer.best).to eq true
+        end
+
+        it "unmark previous best answer" do
+          patch :best, params: {id: answer, question_id: question}, format: :js
+          answer_2.reload
+          expect(answer_2.best).to eq false
+        end
+      end
+    end
+
+    context "Unauthenticated user" do
+      it "can select the best answer" do
+        patch :best, params: {id: answer, question_id: question}, format: :js
+        answer.reload
+        expect(answer.best).to eq false
+      end
+    end
+  end
 end

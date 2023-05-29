@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
 
   def show
     @question = find_question
-    @answers = @question.answers
+    @answers = @question.answers.sort_by_best
     @answer = Answer.new
   end
 
