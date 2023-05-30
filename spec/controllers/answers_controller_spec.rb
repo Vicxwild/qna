@@ -166,7 +166,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context "Unauthenticated user" do
-      it "can select the best answer" do
+      it "can't select the best answer" do
         patch :best, params: {id: answer, question_id: question}, format: :js
         answer.reload
         expect(answer.best).to eq false

@@ -12,8 +12,4 @@ class Answer < ApplicationRecord
       update(best: true)
     end
   end
-
-  def best?
-    best == true
-  end
 end
