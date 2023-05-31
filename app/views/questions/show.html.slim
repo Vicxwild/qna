@@ -1,11 +1,31 @@
-= render "shared/errors", resource: @question
+.question
+  .question-error
 
-h1 = @question.title
-p = @question.body
+  .question-title
+    h1 = @question.title
 
--if current_user == @question.author
-  = link_to "Delete question", question_path(@question), method: :delete
+  .question-body
+    p = @question.body
 
-= render partial: 'answers/answer', collection: @answers
+  -if current_user == @question.author
+    .question-control
+      p= link_to "Edit question", '#', class: 'edit-question-link', data: { question_id: @question.id }
+      p= link_to "Delete question", question_path(@question), method: :delete
+
+      = form_with model: @question,
+        class: 'hidden',
+        local: false,
+        html: { id: "edit-question-#{@question.id}"} do |f|
+
+        p
+          = f.label :title
+          = f.text_field :title
+        p
+          = f.label :body
+          = f.text_area :body
+        p= f.submit "Save"
+
+.answers
+  = render @question.answers
 
 = render "answers/form"

@@ -1,3 +1,21 @@
-li= answer.body
--if current_user == answer.author
-  li= link_to "Delete answer", question_answer_path(answer.question, answer), method: :delete
+div id="answer_#{answer.id}"
+  -if answer.best
+    .best-answer
+      h3= "The best answer to the question:"
+      p= answer.body
+  -else
+    p= answer.body
+
+  -if current_user == answer.author
+    li= link_to "Delete answer", question_answer_path(answer.question, answer), remote: true, method: :delete
+    li= link_to "Edit", "#", class: "edit-answer-link", data: { answer_id: answer.id }
+
+  -if current_user == answer.question.author && !answer.best
+    li= link_to "The Best Answer", best_question_answer_path(answer.question ,answer), remote: true, method: :patch
+
+  div class=["answer-error-#{answer.id}"]
+
+  = form_with model: [answer.question, answer], class: 'hidden', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
+    = f.label :body, "Your answer"
+    = f.text_area :body
+    = f.submit "Save"

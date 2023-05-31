@@ -8,7 +8,7 @@ feature "User can create answer to question", "
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
 
-  describe "Authenticated user" do
+  describe "Authenticated user", js: true do
     background do
       sign_in(user)
 
@@ -19,9 +19,10 @@ feature "User can create answer to question", "
       fill_in "Body", with: "Good answer"
       click_on "Answer"
 
-      expect(page).to have_content "Your answer to the question successfully created."
-      expect(page).to have_content question.title
-      expect(page).to have_content "Good answer"
+      expect(current_path).to eq question_path(question)
+      within ".answers" do
+        expect(page).to have_content "Good answer"
+      end
     end
 
     scenario "tries to answer question with errors" do

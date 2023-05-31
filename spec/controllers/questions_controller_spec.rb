@@ -28,6 +28,10 @@ RSpec.describe QuestionsController, type: :controller do
     it "renders show view" do
       expect(response).to render_template :show
     end
+
+    it "assigns new answer for a question" do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
   end
 
   describe "GET #new" do
@@ -87,6 +91,54 @@ RSpec.describe QuestionsController, type: :controller do
 
       it "redirects to sign in page" do
         post :create, params: {question: attributes_for(:question), author: user}
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "PATCH #update" do
+    context "Authenticated user" do
+      before { login(user) }
+
+      context "with valid attributes" do
+        it "assigns the requested to question to @question" do
+          patch :update, params: {id: question, question: {title: "new title", body: "new body"}}, format: :js
+          expect(assigns(:question)).to eq question
+        end
+
+        it "changes question attributes" do
+          patch :update, params: {id: question, question: {title: "new title", body: "new body"}}, format: :js
+          question.reload
+
+          expect(question.title).to eq "new title"
+          expect(question.body).to eq "new body"
+        end
+
+        it "renders update view" do
+          patch :update, params: {id: question, question: {body: "new body"}}, format: :js
+          expect(response).to render_template :update
+        end
+      end
+
+      context "with invalid attributes" do
+        it "doesn't change question attributes" do
+          expect { patch :update, params: {id: question, question: attributes_for(:question, :invalid)}, format: :js }.to_not change(question, :body)
+        end
+
+        it "renders update view" do
+          patch :update, params: {id: question, question: attributes_for(:question, :invalid)}, format: :js
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    context "Unauthenticated user" do
+      it "not changes question attributes" do
+        expect { patch :update, params: {id: question, question: {title: "new title", body: "new body"}} }.to_not change(question, :body)
+      end
+
+      it "redirects to sign in page" do
+        patch :update, params: {id: question, question: {title: "new title", body: "new body"}}
         expect(response).to redirect_to new_user_session_path
       end
     end
