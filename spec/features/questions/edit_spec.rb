@@ -51,6 +51,24 @@ feature "User can edit his question", "
 
       expect(page).to_not have_link "Edit question"
     end
+
+    scenario "edits a question and can attach files" do
+      sign_in(user)
+      visit question_path(question)
+
+      within ".question-control" do
+        click_on "Edit question"
+
+        fill_in "Title", with: "edited question title"
+        fill_in "Body", with: "edited question body"
+
+        attach_file "File", ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on "Save"
+      end
+
+      expect(page).to have_link "rails_helper.rb"
+      expect(page).to have_link "spec_helper.rb"
+    end
   end
 
   scenario "Unauthenticated user can't edit question" do
