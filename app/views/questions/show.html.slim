@@ -25,6 +25,9 @@
           = f.text_area :body
         p= f.submit "Save"
 
+- if @question.file.attached?
+  p= link_to @question.file.filename.to_s, url_for(@question.file)
+
 .answers
   = render @question.answers
 
