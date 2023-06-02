@@ -27,5 +27,9 @@ module Qna
         routing_specs: false,
         request_specs: false
     end
+
+    if ["development", "test"].include? ENV["RAILS_ENV"]
+      Dotenv::Railtie.load
+    end
   end
 end
