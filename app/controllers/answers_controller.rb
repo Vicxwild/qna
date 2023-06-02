@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
   private
 
   def current_question
-    @current_question ||= Question.find(params[:question_id])
+    @current_question ||= Question.with_attached_files.find(params[:question_id])
   end
 
   def find_answer
