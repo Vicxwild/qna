@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
     @question = find_question
     @answers = @question.answers.sort_by_best
     @answer = Answer.new
+    @answer.links.new
   end
 
   def new

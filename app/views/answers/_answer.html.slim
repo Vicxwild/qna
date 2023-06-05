@@ -6,6 +6,12 @@ div id="answer_#{answer.id}"
   -else
     p= answer.body
 
+  .answer-links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        li= link_to link.name, link.url
+
   p
     -if answer.files.attached?
       - answer.files.each do |file|
