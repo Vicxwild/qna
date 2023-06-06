@@ -8,22 +8,45 @@ feature "User can add links to answer", "
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
   given(:gist_url) { "https://gist.github.com/Vicxwild/6a1458756d13d3a658ee5e0331e7bc14" }
+  given(:google_url) { "https://www.google.com" }
 
-  scenario "User adds link when asks question", js: true do
-    sign_in(user)
-    visit question_path(question)
+  describe "Authenticated user", js: true do
+    background do
+      sign_in(user)
+      visit question_path(question)
 
-    within ".question-answer" do
-      fill_in "Body", with: "Good answer"
+      within ".question-answer" do
+        fill_in "Body", with: "Good answer"
 
-      fill_in "Link name", with: "My gist"
-      fill_in "Url", with: gist_url
+        click_on "add link"
 
-      click_on "Answer"
+        fill_in "Link name", with: "My gist"
+        fill_in "Url", with: gist_url
+      end
     end
 
-    within ".answers" do
+    scenario "User adds link when asks question" do
+      click_on "Answer"
+
+      within ".answers" do
+        expect(page).to have_link "My gist", href: gist_url
+      end
+    end
+
+    scenario "User adds two links when asks question" do
+      within ".question-answer" do
+        click_on "add link"
+
+        within all(".nested-fields").last do
+          fill_in "Link name", with: "Google"
+          fill_in "Url", with: google_url
+        end
+      end
+
+      click_on "Answer"
+
       expect(page).to have_link "My gist", href: gist_url
+      expect(page).to have_link "Google", href: google_url
     end
   end
 end

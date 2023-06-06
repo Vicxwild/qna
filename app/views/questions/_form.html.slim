@@ -1,7 +1,9 @@
-.answer-errors
-  = render "shared/errors", resource: @answer
+= render "shared/errors", resource: @question
 
-= form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
+= form_with model: @question, local: true do |f|
+  p
+    = f.label :title
+    = f.text_field :title
   p
     = f.label :body
     = f.text_area :body
@@ -16,4 +18,4 @@
     .links
       = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
 
-  p= f.submit "Answer"
+  p= f.submit "Ask"

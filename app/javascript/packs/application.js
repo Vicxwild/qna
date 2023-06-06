@@ -14,6 +14,8 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
+import "@nathanvda/cocoon"
+
 import "./answers"
 import "./questions"
 
