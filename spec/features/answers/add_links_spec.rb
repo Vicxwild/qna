@@ -25,7 +25,7 @@ feature "User can add links to answer", "
       end
     end
 
-    scenario "User adds link when asks question" do
+    scenario "User adds link when answers question" do
       click_on "Answer"
 
       within ".answers" do
@@ -33,7 +33,7 @@ feature "User can add links to answer", "
       end
     end
 
-    scenario "User adds two links when asks question" do
+    scenario "User adds two links when answers question" do
       within ".question-answer" do
         click_on "add link"
 
@@ -47,6 +47,16 @@ feature "User can add links to answer", "
 
       expect(page).to have_link "My gist", href: gist_url
       expect(page).to have_link "Google", href: google_url
+    end
+
+    scenario "adds gist link when answers question" do
+      click_on "Answer"
+      visit question_path(question)
+
+      within_frame do
+        expect(page).to have_content "gistfile1.txt"
+        expect(page).to have_content "Hello world!"
+      end
     end
   end
 end

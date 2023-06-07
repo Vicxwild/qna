@@ -7,10 +7,7 @@ div id="answer_#{answer.id}"
     p= answer.body
 
   .answer-links
-    p Links:
-    ul
-      - answer.links.each do |link|
-        li= link_to link.name, link.url
+    = render "shared/links", resource: answer
 
   p
     -if answer.files.attached?

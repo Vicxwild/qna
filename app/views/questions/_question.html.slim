@@ -36,7 +36,4 @@
         p= f.submit "Save"
 
   .question-links
-    p Links:
-    ul
-      - @question.links.each do |link|
-        li= link_to link.name, link.url
+    = render "shared/links", resource: @question

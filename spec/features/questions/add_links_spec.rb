@@ -23,13 +23,13 @@ feature "User can add links to question", "
       fill_in "Url", with: gist_url
     end
 
-    scenario "User adds link when asks question" do
+    scenario "adds link when asks question" do
       click_on "Ask"
 
       expect(page).to have_link "My gist", href: gist_url
     end
 
-    scenario "User adds two links when asks question" do
+    scenario "adds two links when asks question" do
       click_on "add link"
 
       within all(".nested-fields").last do
@@ -41,6 +41,15 @@ feature "User can add links to question", "
 
       expect(page).to have_link "My gist", href: gist_url
       expect(page).to have_link "Google", href: google_url
+    end
+
+    scenario "adds gist link when asks question" do
+      click_on "Ask"
+
+      within_frame do
+        expect(page).to have_content "gistfile1.txt"
+        expect(page).to have_content "Hello world!"
+      end
     end
   end
 end

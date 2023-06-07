@@ -1,0 +1,8 @@
+p Links:
+ul
+  - resource.links.each do |link|
+    -if link.match_gist?
+      li= link_to link.name, link.url
+      = render "shared/iframe", link: link.url
+    -else
+      li= link_to link.name, link.url
