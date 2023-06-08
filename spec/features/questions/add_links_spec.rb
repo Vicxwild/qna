@@ -46,7 +46,7 @@ feature "User can add links to question", "
     scenario "adds gist link when asks question" do
       click_on "Ask"
 
-      within_frame do
+      within_frame find("iframe.gist-content") do
         expect(page).to have_content "gistfile1.txt"
         expect(page).to have_content "Hello world!"
       end

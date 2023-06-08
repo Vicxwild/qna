@@ -1,1 +1,5 @@
-iframe.gist-content data-gist-url="#{link}.js" width="100%" height="100%"
+- iframe_url = "data:text/html;charset=utf-8,<head><base target='_blank' /></head><body><script src=#{link}.js></script></body>"
+- if action == :create
+  iframe.gist-content src="#{iframe_url}" width="100%" height="100%"
+- else
+  iframe.gist-content data-gist-url="#{iframe_url}" width="100%" height="100%"

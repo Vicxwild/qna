@@ -7,7 +7,7 @@ div id="answer_#{answer.id}"
     p= answer.body
 
   .answer-links
-    = render "shared/links", resource: answer
+    = render "shared/links", resource: answer, action: action
 
   p
     -if answer.files.attached?

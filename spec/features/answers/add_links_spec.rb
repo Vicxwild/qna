@@ -51,7 +51,6 @@ feature "User can add links to answer", "
 
     scenario "adds gist link when answers question" do
       click_on "Answer"
-      visit question_path(question)
 
       within_frame do
         expect(page).to have_content "gistfile1.txt"
