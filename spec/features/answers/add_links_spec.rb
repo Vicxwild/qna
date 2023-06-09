@@ -25,7 +25,7 @@ feature "User can add links to answer", "
       end
     end
 
-    scenario "User adds link when answers question" do
+    scenario "adds link when answers question" do
       click_on "Answer"
 
       within ".answers" do
@@ -33,7 +33,7 @@ feature "User can add links to answer", "
       end
     end
 
-    scenario "User adds two links when answers question" do
+    scenario "adds two links when answers question" do
       within ".question-answer" do
         click_on "add link"
 
@@ -56,6 +56,28 @@ feature "User can add links to answer", "
         expect(page).to have_content "gistfile1.txt"
         expect(page).to have_content "Hello world!"
       end
+    end
+
+    scenario "adds link when edits question" do
+      click_on "Answer"
+
+      within ".answers" do
+        click_on "Edit"
+      end
+
+      within ".answer-edit" do
+        click_on "add link"
+
+        within all(".nested-fields").last do
+          fill_in "Link name", with: "Github"
+          fill_in "Url", with: "https://github.com/"
+        end
+      end
+
+      click_on "Save"
+
+      expect(page).to have_link "My gist", href: gist_url
+      expect(page).to have_link "Github", href: "https://github.com/"
     end
   end
 end
