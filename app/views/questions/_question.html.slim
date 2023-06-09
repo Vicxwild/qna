@@ -35,5 +35,12 @@
           = f.file_field :files, multiple: true, direct_upload: true
         p= f.submit "Save"
 
+        p
+        #links
+          = f.fields_for :links do |link|
+          .links
+            = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+
+
   .question-links
     = render "shared/links", resource: @question, action: nil
