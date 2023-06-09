@@ -79,5 +79,21 @@ feature "User can add links to answer", "
       expect(page).to have_link "My gist", href: gist_url
       expect(page).to have_link "Github", href: "https://github.com/"
     end
+
+    scenario "deletes link when edits question" do
+      click_on "Answer"
+
+      within ".answers" do
+        click_on "Edit"
+      end
+
+      within ".answer-edit" do
+        click_on "remove url"
+      end
+
+      click_on "Save"
+
+      expect(page).to_not have_link "My gist", href: gist_url
+    end
   end
 end
