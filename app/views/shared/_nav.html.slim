@@ -5,6 +5,7 @@ nav.navbar.navbar-light.bg-light
       - if user_signed_in?
         = current_user.email
         = link_to "Log out", destroy_user_session_path, method: :delete
+        = link_to "My rewards", rewards_path
       - else
         = link_to 'Log in', new_user_session_path
         = link_to "Registration", new_user_registration_path
