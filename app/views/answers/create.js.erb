@@ -3,4 +3,5 @@ $('.answer-errors').html('<%= render "shared/errors", resource: @answer %>');
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer, action: :create %>');
   $('.new-answer #answer_body').val('');
+  $('.new-answer-links .nested-fields').remove();
 <% end %>

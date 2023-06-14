@@ -49,4 +49,5 @@
 
 
   .question-links
-    = render "shared/links", resource: @question, action: nil
+    - if @question.links.present?
+      = render "shared/links", resource: @question, action: nil
