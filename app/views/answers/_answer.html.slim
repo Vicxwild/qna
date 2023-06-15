@@ -6,6 +6,10 @@ div id="answer_#{answer.id}"
   -else
     p= answer.body
 
+  .answer-links
+    - if answer.links.present?
+      = render "shared/links", resource: answer, action: action
+
   p
     -if answer.files.attached?
       - answer.files.each do |file|
@@ -23,11 +27,19 @@ div id="answer_#{answer.id}"
 
   div class=["answer-error-#{answer.id}"]
 
-  = form_with model: [answer.question, answer], class: 'hidden', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
-    p
-      = f.label :body, "Your answer"
-      = f.text_area :body
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
-    p= f.submit "Save"
+  .answer-edit
+    = form_with model: [answer.question, answer], class: 'hidden', html: {id: "edit-answer-#{answer.id}" }, local: false do |f|
+      p
+        = f.label :body, "Your answer"
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+
+      p
+      #links
+        = f.fields_for :links do |link|
+          =render "links/link_fields", f: link
+        .links
+          = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+      p= f.submit "Save"

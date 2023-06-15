@@ -2,6 +2,7 @@
   = render @question
 
 .answers
-  = render @question.answers
+  = render @question.answers, action: :show
 
-= render "answers/form"
+.question-answer
+  = render "answers/form"

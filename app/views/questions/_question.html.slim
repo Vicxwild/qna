@@ -7,6 +7,11 @@
   .question-body
     p = @question.body
 
+  - if @question.reward.present?
+    h3 Reward:
+    = image_tag url_for(@question.reward.image), size: "36"
+    = @question.reward.title
+
   - if @question.files.attached?
     - @question.files.each do |file|
       p.attachment id="file-#{file.id}"
@@ -34,3 +39,15 @@
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
         p= f.submit "Save"
+
+        p
+        #links
+          = f.fields_for :links do |link|
+            =render "links/link_fields", f: link
+          .links
+            = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+
+
+  .question-links
+    - if @question.links.present?
+      = render "shared/links", resource: @question, action: nil
