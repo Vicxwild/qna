@@ -3,10 +3,15 @@ class Question < ApplicationRecord
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
   belongs_to :author, class_name: "User", foreign_key: "author_id"
+  has_many :votes, dependent: :destroy, as: :votable
 
   has_many_attached :files
 
   accepts_nested_attributes_for :links, :reward, reject_if: :all_blank, allow_destroy: true
 
   validates :title, :body, :author, presence: true
+
+  def votes_sum
+    votes.reduce(0) { |sum, vote| sum + vote.value }
+  end
 end

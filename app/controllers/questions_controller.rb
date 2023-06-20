@@ -45,6 +45,18 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def like
+    @question = find_question
+
+    vote_action(1)
+  end
+
+  def dislike
+    @question = find_question
+
+    vote_action(-1)
+  end
+
   private
 
   def find_question
@@ -55,5 +67,11 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, files: [],
       links_attributes: [:id, :name, :url, :_destroy],
       reward_attributes: [:title, :image])
+  end
+
+  def vote_action(value)
+    @question.votes.new(user_id: current_user.id, value: value)
+
+    redirect_to @question, notice: "Your vote is taken into account." if @question.save
   end
 end

@@ -9,6 +9,10 @@ Rails.application.routes.draw do
         patch :best
       end
     end
+    member do
+      patch :like
+      patch :dislike
+    end
   end
 
   resources :files, only: :destroy
