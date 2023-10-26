@@ -17,18 +17,18 @@ feature "User can vote for question", "
     scenario "can vote for question (like)" do
       within ".question" do
         find(".like").click
-        wait_for_ajax
       end
 
+      expect(page).to have_content question.title # delay
       expect(question.reload.votes_sum).to eq 1
     end
 
     scenario "can vote for question (dislike)" do
       within ".question" do
         find(".dislike").click
-        wait_for_ajax
       end
 
+      expect(page).to have_content question.title # delay
       expect(question.reload.votes_sum).to eq(-1)
     end
   end
