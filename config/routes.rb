@@ -3,7 +3,14 @@ Rails.application.routes.draw do
 
   root to: "questions#index"
 
-  resources :questions, only: %i[index show new create update destroy] do
+  concern :voteable do
+    member do
+      patch :like
+      patch :dislike
+    end
+  end
+
+  resources :questions, only: %i[index show new create update destroy], concerns: [:voteable] do
     resources :answers, only: %i[create update destroy] do
       member do
         patch :best

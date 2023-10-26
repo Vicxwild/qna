@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_09_132541) do
+ActiveRecord::Schema.define(version: 2023_10_26_100927) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,17 @@ ActiveRecord::Schema.define(version: 2023_06_09_132541) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.string "voteable_type", null: false
+    t.bigint "voteable_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
@@ -101,4 +112,5 @@ ActiveRecord::Schema.define(version: 2023_06_09_132541) do
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "rewards", "answers"
   add_foreign_key "rewards", "questions"
+  add_foreign_key "votes", "users"
 end
