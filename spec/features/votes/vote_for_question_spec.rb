@@ -17,18 +17,22 @@ feature "User can vote for question", "
     scenario "can vote for question (like)" do
       within ".question" do
         find(".like").click
+
+        votes_sum_element = find(".votes-sum")
+        expect(votes_sum_element).to have_text("1")
       end
 
-      expect(page).to have_content question.title # delay
-      expect(question.reload.votes_sum).to eq 1
+      expect(question.reload.votes_sum).to eq(1)
     end
 
     scenario "can vote for question (dislike)" do
       within ".question" do
         find(".dislike").click
+
+        votes_sum_element = find(".votes-sum")
+        expect(votes_sum_element).to have_text("-1")
       end
 
-      expect(page).to have_content question.title # delay
       expect(question.reload.votes_sum).to eq(-1)
     end
   end
