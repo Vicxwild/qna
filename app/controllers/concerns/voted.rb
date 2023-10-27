@@ -22,7 +22,7 @@ module Voted
       if @vote.save
         format.json { render json: {vote_sum: @voteable.votes_sum} }
       else
-        render json: @vote.errors.messages, status: :unprocessable_entity
+        format.json { render json: @vote.errors.messages, status: :unprocessable_entity }
       end
     end
   end

@@ -14,8 +14,10 @@ $(document).on('turbolinks:load', function() {
   }).on('ajax:error', function(e) {
     const errors = e.detail[0];
 
+    $('p.alert').empty();
+
     $.each(errors, function(index, value) {
-      $('p.notice').append(`<div class="flash-alert">${value}</div>`);
+      $('p.alert').append(`<div class="flash-alert">${value}</div>`);
     });
   });
 });
