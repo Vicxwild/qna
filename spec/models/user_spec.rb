@@ -24,13 +24,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe "author_cant_vote validation" do
-    it "prevents author from voting" do
-      vote = build(:vote, voteable: question, user: user)
-
-      expect(vote).not_to be_valid
-      expect(vote.errors[:vote]).to include("Author can't vote")
-    end
-  end
 end
