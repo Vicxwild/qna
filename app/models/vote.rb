@@ -13,8 +13,6 @@ class Vote < ApplicationRecord
   end
 
   def user_cant_vote_twice
-    if voteable&.votes&.exists?(user_id: user_id)
-      errors.add(:vote, "User can't vote twice")
-    end
+    errors.add(:vote, "You can't vote twice") if voteable&.voted?(user)
   end
 end

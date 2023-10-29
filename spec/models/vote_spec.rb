@@ -27,7 +27,7 @@ RSpec.describe Vote, type: :model do
       vote_2 = build(:vote, voteable: question, user: another_user)
 
       expect(vote_2).not_to be_valid
-      expect(vote_2.errors[:vote]).to include("User can't vote twice")
+      expect(vote_2.errors[:vote]).to include("You can't vote twice")
     end
   end
 end
