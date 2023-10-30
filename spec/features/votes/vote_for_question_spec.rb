@@ -46,6 +46,34 @@ feature "User can vote for question", "
 
       expect(page).to have_content "Author can't vote"
     end
+
+    scenario "can revote for question" do
+      within ".question" do
+        find(".dislike").click
+        find(".revote").click
+        find(".like").click
+
+        votes_sum_element = find(".votes-sum")
+        expect(votes_sum_element).to have_text("1")
+      end
+
+      expect(question.reload.votes_sum).to eq(1)
+    end
+
+    scenario "can't see revote button if didn't vote" do
+      within ".question" do
+        expect(page).to_not have_selector(".revote")
+      end
+    end
+
+    scenario "can't see revote button after revoting" do
+      within ".question" do
+        find(".dislike").click
+        find(".revote").click
+
+        expect(page).to_not have_selector(".revote")
+      end
+    end
   end
 
   describe "Unauthenticated user", js: true do
@@ -62,6 +90,13 @@ feature "User can vote for question", "
     scenario "can't see the dislike button" do
       within ".question" do
         expect(page).to_not have_selector(".dislike")
+      end
+    end
+
+    scenario "can't see the revote button" do
+      visit question_path(question)
+      within ".question" do
+        expect(page).to_not have_selector(".revote")
       end
     end
   end
