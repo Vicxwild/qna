@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: :show
   helper_method :current_question
 

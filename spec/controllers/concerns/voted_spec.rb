@@ -5,14 +5,19 @@ shared_examples_for "voted" do
   let!(:another_user) { create(:user) }
   let!(:voteable) { create(described_class.to_s.sub!("Controller", "").underscore.singularize.to_sym) }
 
+  let!(:params) do
+    if described_class.to_s == "AnswersController"
+      {id: voteable.id, question_id: voteable.question.id, format: :json}
+    else
+      {id: voteable.id, format: :json}
+    end
+  end
+
   describe "PATCH #like" do
     let!(:vote) { create(:vote, user: another_user, voteable: voteable, value: 1) }
 
     subject(:like) do
-      patch :like, params: {
-        id: voteable.id,
-        format: :json
-      }
+      patch :like, params: params
     end
 
     context "Authenticated user" do
@@ -40,10 +45,7 @@ shared_examples_for "voted" do
     let!(:vote) { create(:vote, user: another_user, voteable: voteable, value: -1) }
 
     subject(:dislike) do
-      patch :dislike, params: {
-        id: voteable.id,
-        format: :json
-      }
+      patch :dislike, params: params
     end
 
     context "Authenticated user" do
@@ -71,10 +73,7 @@ shared_examples_for "voted" do
     let!(:vote) { create(:vote, user: another_user, voteable: voteable, value: 1) }
 
     subject(:revote) do
-      patch :revote, params: {
-        id: voteable.id,
-        format: :json
-      }
+      patch :revote, params: params
     end
 
     context "Authenticated user" do

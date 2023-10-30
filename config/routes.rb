@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, only: %i[index show new create update destroy], concerns: [:voteable] do
-    resources :answers, only: %i[create update destroy] do
+    resources :answers, only: %i[create update destroy], concerns: [:voteable] do
       member do
         patch :best
       end

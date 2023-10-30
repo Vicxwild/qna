@@ -1,7 +1,7 @@
 - if current_user.present?
   div.votes
     div.mb-3
-      = link_to polymorphic_path(voteable, action: :like),
+      = link_to custom_polymorphic_vote_path(voteable, action: :like),
         method: :patch,
         class: 'btn btn-outline-success like me-2',
         remote: true,
@@ -11,7 +11,7 @@
       span.votes-sum.me-2.fs-5(class="#{'text-success' if voteable.votes_sum > 0} #{'text-danger' if voteable.votes_sum < 0}")
         = voteable.votes_sum
 
-      = link_to polymorphic_path(voteable, action: :dislike),
+      = link_to custom_polymorphic_vote_path(voteable, action: :dislike),
         method: :patch,
         class: 'btn btn-outline-danger dislike me-2',
         remote: true,
@@ -21,7 +21,7 @@
       - classes = 'btn btn-outline-primary revote me-2'
       - classes += ' hidden' if !voteable.voted?(current_user)
 
-      = link_to "Revote", polymorphic_path(voteable, action: :revote),
+      = link_to "Revote", custom_polymorphic_vote_path(voteable, action: :revote),
         method: :patch,
         class: classes,
         remote: true,
