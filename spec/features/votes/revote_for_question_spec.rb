@@ -14,7 +14,7 @@ feature "User can change the decision to vote for a question", "
       visit question_path(question)
     end
 
-    scenario "can revote for question (like)" do
+    scenario "can revote for question" do
       within ".question" do
         find(".dislike").click
         find(".revote").click
@@ -25,6 +25,26 @@ feature "User can change the decision to vote for a question", "
       end
 
       expect(question.reload.votes_sum).to eq(1)
+    end
+
+    scenario "can't revote twice" do
+      within ".question" do
+        find(".like").click
+        find(".revote").click
+        find(".revote").click
+      end
+
+      expect(page).to have_content "You didn't voted for question"
+      expect(question.reload.votes_sum).to eq(0)
+    end
+  end
+
+  describe "Unauthenticated user", js: true do
+    scenario "can't see the revote button" do
+      visit question_path(question)
+      within ".question" do
+        expect(page).to_not have_selector(".revote")
+      end
     end
   end
 end

@@ -53,7 +53,7 @@ module Voted
     @vote = @voteable.votes.find_by(user_id: current_user)
 
     if @vote&.destroy
-      render json: {message: "You can revote"}, status: :ok
+      render json: {vote_sum: @voteable.votes_sum}
     else
       render json: {error: "You can't revote for #{kontroller_name}"}, status: :unprocessable_entity
     end

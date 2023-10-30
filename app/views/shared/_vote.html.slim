@@ -1,0 +1,25 @@
+- if current_user.present?
+  div.votes
+    div.mb-3
+      = link_to polymorphic_path(voteable, action: :like),
+        method: :patch,
+        class: 'btn btn-outline-success like me-2',
+        remote: true,
+        data: { type: 'json' } do
+          i.bi.bi-hand-thumbs-up
+
+      span.votes-sum.me-2.fs-5(class="#{'text-success' if voteable.votes_sum > 0} #{'text-danger' if voteable.votes_sum < 0}")
+        = voteable.votes_sum
+
+      = link_to polymorphic_path(voteable, action: :dislike),
+        method: :patch,
+        class: 'btn btn-outline-danger dislike me-2',
+        remote: true,
+        data: { type: 'json' } do
+          i.bi.bi-hand-thumbs-down
+
+      = link_to "Revote", polymorphic_path(voteable, action: :revote),
+        method: :patch,
+        class: 'btn btn-outline-primary revote me-2',
+        remote: true,
+        data: { type: 'json' }

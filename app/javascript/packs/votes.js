@@ -20,5 +20,19 @@ $(document).on('turbolinks:load', function() {
       $('p.alert').append(`<div class="flash-alert">${value}</div>`);
     });
   });
+
+  $('.revote').on('ajax:success', function(e) {
+      const response = e.detail[0];
+      const votesSumElement = $(this).closest('.votes').find('.votes-sum');
+      votesSumElement.text(response.vote_sum);
+    }).on('ajax:error', function(e) {
+    const errors = e.detail[0];
+
+    $('p.alert').empty();
+
+    $.each(errors, function(index, value) {
+      $('p.alert').append(`<div class="flash-alert">${value}</div>`);
+    });
+  });;
 });
 

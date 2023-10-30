@@ -48,7 +48,7 @@ feature "User can vote for question", "
     end
   end
 
-  describe "Unauthenticated user" do
+  describe "Unauthenticated user", js: true do
     background do
       visit question_path(question)
     end
