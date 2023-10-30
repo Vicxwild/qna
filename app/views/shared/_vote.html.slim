@@ -18,8 +18,11 @@
         data: { type: 'json' } do
           i.bi.bi-hand-thumbs-down
 
+      - classes = 'btn btn-outline-primary revote me-2'
+      - classes += ' hidden' if !voteable.voted?(current_user)
+
       = link_to "Revote", polymorphic_path(voteable, action: :revote),
         method: :patch,
-        class: 'btn btn-outline-primary revote me-2',
+        class: classes,
         remote: true,
         data: { type: 'json' }

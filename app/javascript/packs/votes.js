@@ -11,6 +11,8 @@ $(document).on('turbolinks:load', function() {
     } else {
       votesSumElement.removeClass('text-success text-danger');
     }
+
+    $('.revote').removeClass('hidden');
   }).on('ajax:error', function(e) {
     const errors = e.detail[0];
 
@@ -25,6 +27,8 @@ $(document).on('turbolinks:load', function() {
       const response = e.detail[0];
       const votesSumElement = $(this).closest('.votes').find('.votes-sum');
       votesSumElement.text(response.vote_sum);
+
+      $(this).addClass('hidden');
     }).on('ajax:error', function(e) {
     const errors = e.detail[0];
 

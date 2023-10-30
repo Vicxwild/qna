@@ -27,15 +27,19 @@ feature "User can change the decision to vote for a question", "
       expect(question.reload.votes_sum).to eq(1)
     end
 
-    scenario "can't revote twice" do
+    scenario "can't see revote button if didn't vote" do
       within ".question" do
-        find(".like").click
-        find(".revote").click
-        find(".revote").click
+        expect(page).to_not have_selector(".revote")
       end
+    end
 
-      expect(page).to have_content "You didn't voted for question"
-      expect(question.reload.votes_sum).to eq(0)
+    scenario "can't see revote button after revoting" do
+      within ".question" do
+        find(".dislike").click
+        find(".revote").click
+
+        expect(page).to_not have_selector(".revote")
+      end
     end
   end
 
