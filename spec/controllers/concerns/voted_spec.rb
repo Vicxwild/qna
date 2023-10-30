@@ -66,4 +66,35 @@ shared_examples_for "voted" do
       end
     end
   end
+
+  describe "PATCH #revote" do
+    let!(:vote) { create(:vote, user: another_user, voteable: voteable, value: 1) }
+
+    subject(:revote) do
+      patch :revote, params: {
+        id: voteable.id,
+        format: :json
+      }
+    end
+
+    context "Authenticated user" do
+      before { login(another_user) }
+
+      it "respond status OK" do
+        revote
+        expect(response.status).to eq 200
+      end
+
+      it "count votes decrease by 1" do
+        expect { revote }.to change { voteable.reload.votes_sum }.from(1).to(0)
+      end
+    end
+
+    context "Unauthenticated user" do
+      it "response status unauthorized" do
+        revote
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end
