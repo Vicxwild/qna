@@ -19,6 +19,7 @@ import "@nathanvda/cocoon"
 import "./answers"
 import "./questions"
 import "./gists"
+import "./votes"
 
 Rails.start()
 Turbolinks.start()

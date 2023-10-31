@@ -1,0 +1,42 @@
+$(document).on('turbolinks:load', function() {
+  $('.like, .dislike').on('ajax:success', function(e) {
+    const response = e.detail[0];
+    const votesSumElement = $(this).closest('.votes').find('.votes-sum');
+    votesSumElement.text(response.vote_sum);
+
+    if (response.vote_sum > 0) {
+      votesSumElement.removeClass('text-danger').addClass('text-success');
+    } else if (response.vote_sum < 0) {
+      votesSumElement.removeClass('text-success').addClass('text-danger');
+    } else {
+      votesSumElement.removeClass('text-success text-danger');
+    }
+
+    $('.revote').removeClass('hidden');
+  }).on('ajax:error', function(e) {
+    const errors = e.detail[0];
+
+    $('p.alert').empty();
+
+    $.each(errors, function(index, value) {
+      $('p.alert').append(`<div class="flash-alert">${value}</div>`);
+    });
+  });
+
+  $('.revote').on('ajax:success', function(e) {
+      const response = e.detail[0];
+      const votesSumElement = $(this).closest('.votes').find('.votes-sum');
+      votesSumElement.text(response.vote_sum);
+
+      $(this).addClass('hidden');
+    }).on('ajax:error', function(e) {
+    const errors = e.detail[0];
+
+    $('p.alert').empty();
+
+    $.each(errors, function(index, value) {
+      $('p.alert').append(`<div class="flash-alert">${value}</div>`);
+    });
+  });;
+});
+

@@ -1,10 +1,13 @@
-div id="answer_#{answer.id}"
+div.answer id="answer_#{answer.id}"
+
   -if answer.best
     .best-answer
       h3= "The best answer to the question:"
       p= answer.body
   -else
     p= answer.body
+
+  = render 'shared/vote', voteable: answer
 
   .answer-links
     - if answer.links.present?
