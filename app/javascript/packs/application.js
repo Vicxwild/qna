@@ -16,10 +16,7 @@ import "channels"
 
 import "@nathanvda/cocoon"
 
-import "./answers"
-import "./questions"
-import "./gists"
-import "./votes"
+import "./utils"
 
 Rails.start()
 Turbolinks.start()
