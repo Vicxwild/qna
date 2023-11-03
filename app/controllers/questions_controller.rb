@@ -62,14 +62,12 @@ class QuestionsController < ApplicationController
   end
 
   def publish_question
-    question_title = @question.title
     return if @question.errors.any?
-    ActionCable.server.broadcast(
-      "questions_channel", question_title
-      # ApplicationController.render(
-      #     partial: "questions/question",
-      #     locals: { question: @question }
-      #   )
-    )
+    ActionCable.server.broadcast("questions_channel", {
+      question: {
+        title: @question.title,
+        url: url_for(@question)
+      }
+    })
   end
 end

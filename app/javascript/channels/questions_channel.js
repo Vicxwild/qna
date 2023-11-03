@@ -2,6 +2,7 @@ import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function() {
   const questionsList = $('.questions')
+  const templateQuestion = require('../templates/question_index.hbs');
 
   consumer.subscriptions.create("QuestionsChannel", {
     connected() {
@@ -13,7 +14,8 @@ $(document).on('turbolinks:load', function() {
     },
 
     received(data) {
-      questionsList.append(data);
+      const question = templateQuestion(data);
+      questionsList.append(question);
     }
   });
 });
