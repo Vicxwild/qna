@@ -43,9 +43,9 @@ class AnswersController < ApplicationController
 
   def publish_answer # метод отвечает за передачу данных в канал answers_channel
     return if @answer.errors.any?
-    ActionCable.server.broadcast("answers_channel", {
+    ActionCable.server.broadcast("answers_channel_#{current_question.id}", {
       answer: {
-        # данные ответа для передачи на клиент
+        body: @answer.body
       }
     })
   end
