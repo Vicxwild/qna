@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   include Voted
-  include ApplicationHelper
 
   before_action :authenticate_user!, except: :show
   helper_method :current_question
@@ -50,10 +49,16 @@ class AnswersController < ApplicationController
   def broadcast_attributes
     votes = {
       sum: @answer.votes_sum,
-      like_url: custom_polymorphic_vote_path(@answer, action: :like),
-      dislike_url: custom_polymorphic_vote_path(@answer, action: :dislike)
+      like_url: helpers.custom_polymorphic_vote_path(@answer, action: :like),
+      dislike_url: helpers.custom_polymorphic_vote_path(@answer, action: :dislike)
     }
 
-    {answer: @answer.attributes.merge(votes), sid: session.id.public_id}
+    files = @answer.files.map { |file| {filename: file.filename.to_s, url: url_for(file)} }
+    links = @answer.links.map { |link| {name: link.name, url: link.url} }
+
+    {
+      answer: @answer.attributes.merge(votes: votes, files: files, links: links),
+      sid: session.id.public_id
+    }
   end
 end

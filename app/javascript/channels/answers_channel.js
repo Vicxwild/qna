@@ -23,7 +23,6 @@ $(document).on('turbolinks:load', function() {
       // нужен шаблон для передачи в него данных и рендеринге на клиенте
       if (gon.sid === data.sid) return;
 
-      console.log(data);
       const answerFullTemplate = templateAnswer(data);
       answersList.append(answerFullTemplate);
     }
