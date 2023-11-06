@@ -2,7 +2,7 @@ import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function() {
   const questionsList = $('.questions')
-  const templateQuestion = require('../templates/question_index.hbs');
+  const templateQuestion = require('../templates/question.hbs');
 
   consumer.subscriptions.create("QuestionsChannel", {
     connected() {
