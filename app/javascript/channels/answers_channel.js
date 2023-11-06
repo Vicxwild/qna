@@ -24,8 +24,8 @@ $(document).on('turbolinks:load', function() {
       if (gon.sid === data.sid) return;
 
       console.log(data);
-      const answer = templateAnswer(data);
-      answersList.append(answer);
+      const answerFullTemplate = templateAnswer(data);
+      answersList.append(answerFullTemplate);
     }
   });
 });
