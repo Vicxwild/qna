@@ -1,0 +1,16 @@
+<div class="answer" id="answer_{{answer.id}}">
+  <div class="votes">
+    <div class="mb-3">
+      <a class="btn btn-outline-success like me-2" data-type="json" data-remote="true" rel="nofollow"
+        data-method="patch" href="{{answer.like_url}}">
+        <i class="bi bi-hand-thumbs-up"></i>
+      </a>
+      <span class="votes-sum me-2 fs-5">{{answer.sum}}</span>
+      <a class="btn btn-outline-danger dislike me-2" data-type="json" data-remote="true" rel="nofollow"
+        data-method="patch" href="{{answer.dislike_url}}">
+        <i class="bi bi-hand-thumbs-down"></i>
+      </a>
+    </div>
+  </div>
+  {{answer.body}}
+</div>

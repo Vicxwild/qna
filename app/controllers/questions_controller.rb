@@ -14,7 +14,11 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.sort_by_best
     @answer = Answer.new
     @answer.links.new
-    gon.question_id = @question.id
+
+    gon.push({
+      question_id: @question.id,
+      sid: session&.id&.public_id
+    })
   end
 
   def new

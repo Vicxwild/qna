@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   include Voted
+  include ApplicationHelper
 
   before_action :authenticate_user!, except: :show
   helper_method :current_question
@@ -43,10 +44,16 @@ class AnswersController < ApplicationController
 
   def publish_answer # метод отвечает за передачу данных в канал answers_channel
     return if @answer.errors.any?
-    ActionCable.server.broadcast("answers_channel_#{current_question.id}", {
-      answer: {
-        body: @answer.body
-      }
-    })
+    ActionCable.server.broadcast("answers_channel_#{current_question.id}", broadcast_attributes)
+  end
+
+  def broadcast_attributes
+    votes = {
+      sum: @answer.votes_sum,
+      like_url: custom_polymorphic_vote_path(@answer, action: :like),
+      dislike_url: custom_polymorphic_vote_path(@answer, action: :dislike)
+    }
+
+    {answer: @answer.attributes.merge(votes), sid: session.id.public_id}
   end
 end
