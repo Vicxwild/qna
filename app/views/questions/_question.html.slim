@@ -53,3 +53,5 @@ div.question
   .question-links
     - if @question.links.present?
       = render "shared/links", resource: @question, action: nil
+
+  = render "shared/comments", resource: @question

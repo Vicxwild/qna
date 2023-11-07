@@ -9,7 +9,7 @@ module Commented
     @comment = @commentable.comments.new(comment_params.merge(author: current_user))
 
     if @comment.save
-      render json: @comment.body, status: :ok
+      render json: {body: @comment.body, author_email: @comment.author.email}, status: :ok
     else
       render json: @comment.errors.messages, status: :unprocessable_entity
     end

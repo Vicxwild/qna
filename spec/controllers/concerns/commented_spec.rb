@@ -2,7 +2,6 @@ require "rails_helper"
 
 shared_examples_for "commented" do
   let!(:user) { create(:user) }
-  # let!(:another_user) { create(:user) }
   let!(:commentable) { create(described_class.to_s.sub!("Controller", "").underscore.singularize.to_sym) }
 
   let!(:params) do
