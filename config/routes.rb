@@ -11,8 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, only: %i[index show new create update destroy], concerns: [:voteable] do
-    resources :answers, only: %i[create update destroy], concerns: [:voteable] do
+  concern :commentable do
+    member { patch :add_comment }
+  end
+
+  resources :questions, only: %i[index show new create update destroy], concerns: [:voteable, :commentable] do
+    resources :answers, only: %i[create update destroy], concerns: [:voteable, :commentable] do
       member do
         patch :best
       end
