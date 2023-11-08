@@ -13,8 +13,6 @@ $(document).on('turbolinks:load', function() {
     },
 
     received(data) {
-      console.log(data);
-
       if (gon.sid === data.sid) return;
 
       const comment_type = data.commentable_type;
