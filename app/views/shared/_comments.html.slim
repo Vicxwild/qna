@@ -13,13 +13,14 @@
   = form_with url: custom_polymorphic_comment_path(resource),
     method: :patch,
     local: false,
-    class: "add_comment" do |f|
+    class: "add_comment",
+    data: { type: 'json' } do |f|
 
     div.comment_errors
       = render "shared/errors", resource: resource
 
     div.mb-3
       = f.label :body, "Type your comment", class: "form-label"
-      = f.text_area :body, rows: 1, class: "form-control comment-body"
+      = f.text_area :body, rows: 1, class: "comment-body"
 
-    = f.submit "Comment", class: "btn btn-primary"
+      = f.submit "Comment", class: "btn btn-primary"

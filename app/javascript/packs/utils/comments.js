@@ -8,8 +8,6 @@ $(document).on('turbolinks:load', function() {
 
 function handlerSuccess(e) {
   const response = e.originalEvent.detail[0];
-  console.log(response)
-  console.log(templateComment(response))
   $(this).find('.comment-body').val('');
   $(this).parents().children('.comments').append(templateComment(response));
 }
