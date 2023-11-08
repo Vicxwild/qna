@@ -22,22 +22,22 @@ feature "User can comment on the answer", "
           end
         end
 
-        # Capybara.using_session("another_user") do
-        #   sign_in(another_user)
-        #   visit question_path(question)
+        Capybara.using_session("another_user") do
+          sign_in(another_user)
+          visit question_path(question)
 
-        #   within ".answers" do
-        #     expect(page).to_not have_selector(".comment")
-        #   end
-        # end
+          within ".answers" do
+            expect(page).to_not have_selector(".comment")
+          end
+        end
 
-        # Capybara.using_session("guest") do
-        #   visit question_path(question)
+        Capybara.using_session("guest") do
+          visit question_path(question)
 
-        #   within ".answers" do
-        #     expect(page).to_not have_selector(".comment")
-        #   end
-        # end
+          within ".answers" do
+            expect(page).to_not have_selector(".comment")
+          end
+        end
 
         Capybara.using_session("user") do
           within ".answers" do
@@ -51,19 +51,19 @@ feature "User can comment on the answer", "
           end
         end
 
-        # Capybara.using_session("another_user") do
-        #   within ".answer .comments" do
-        #     expect(page).to have_content "Comment by #{user.email}"
-        #     expect(page).to have_content "Answer comment"
-        #   end
-        # end
+        Capybara.using_session("another_user") do
+          within ".answer .comments" do
+            expect(page).to have_content "Comment by #{user.email}"
+            expect(page).to have_content "Answer comment"
+          end
+        end
 
-        # Capybara.using_session("guest") do
-        #   within ".answer .comments" do
-        #     expect(page).to have_content "Comment by #{user.email}"
-        #     expect(page).to have_content "Answer comment"
-        #   end
-        # end
+        Capybara.using_session("guest") do
+          within ".answer .comments" do
+            expect(page).to have_content "Comment by #{user.email}"
+            expect(page).to have_content "Answer comment"
+          end
+        end
       end
     end
   end
