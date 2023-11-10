@@ -1,0 +1,42 @@
+<div class="answer" id="answer_{{answer.id}}">
+  {{answer.body}}
+
+  <div class="votes">
+    <div class="mb-3">
+      <a class="btn btn-outline-success like me-2" data-type="json" data-remote="true" rel="nofollow"
+        data-method="patch" href="{{answer.votes.like_url}}">
+        <i class="bi bi-hand-thumbs-up"></i>
+      </a>
+      <span class="votes-sum me-2 fs-5">{{answer.votes.sum}}</span>
+      <a class="btn btn-outline-danger dislike me-2" data-type="json" data-remote="true" rel="nofollow"
+        data-method="patch" href="{{answer.votes.dislike_url}}">
+        <i class="bi bi-hand-thumbs-down"></i>
+      </a>
+    </div>
+  </div>
+
+  {{#if answer.links}}
+  <div class="answer-links">
+    <p>Links:</p>
+    <ul>
+      {{#each answer.links}}
+      <li>
+        <a href="{{this.url}}" target="_blank" class="resource-link">
+          {{this.name}}
+        </a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  {{#if answer.files}}
+  {{#each answer.files}}
+    <p class="attachment">
+      <a href="{{this.url}}" target="_blank" class="name">
+        {{this.filename}}
+      </a>
+    </p>
+  {{/each}}
+  {{/if}}
+</div>

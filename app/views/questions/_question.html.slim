@@ -21,7 +21,7 @@ div.question
         -if current_user == @question.author
           = link_to "Delete file", file_path(file), method: :delete, remote: true
 
-  -if current_user == @question.author
+  -if current_user&.author_of?(@question)
     .question-control
       p= link_to "Edit question", '#', class: 'edit-question-link', data: { question_id: @question.id }
       p= link_to "Delete question", question_path(@question), method: :delete
@@ -53,3 +53,5 @@ div.question
   .question-links
     - if @question.links.present?
       = render "shared/links", resource: @question, action: nil
+
+  = render "shared/comments", resource: @question

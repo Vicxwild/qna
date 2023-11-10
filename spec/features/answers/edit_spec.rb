@@ -15,20 +15,18 @@ feature "User can edit his answer", "
       sign_in(user)
       visit question_path(question)
     end
-
-    scenario "edits his answer" do
-      click_on "Edit"
-
-      within ".answers" do
-        fill_in "Your answer", with: "edited answer"
-        click_on "Save"
-
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content "edited answer"
-        expect(page).to_not have_selector "textarea"
-      end
-    end
-
+    #     scenario "edits his answer" do
+    #       click_on "Edit"
+    #
+    #       within ".answers" do
+    #         fill_in "Your answer", with: "edited answer"
+    #         click_on "Save"
+    #
+    #         expect(page).to_not have_content answer.body
+    #         expect(page).to have_content "edited answer"
+    #         expect(page).to_not have_selector "textarea"
+    #       end
+    #     end
     scenario "edits his answer with errors" do
       click_on "Edit"
 

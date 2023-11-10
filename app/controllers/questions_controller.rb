@@ -1,7 +1,10 @@
 class QuestionsController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
+
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all
@@ -12,6 +15,11 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.sort_by_best
     @answer = Answer.new
     @answer.links.new
+
+    gon.push({
+      question_id: @question.id,
+      sid: session&.id&.public_id
+    })
   end
 
   def new
@@ -57,5 +65,15 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, files: [],
       links_attributes: [:id, :name, :url, :_destroy],
       reward_attributes: [:title, :image])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast("questions_channel", {
+      question: {
+        title: @question.title,
+        url: url_for(@question)
+      }
+    })
   end
 end

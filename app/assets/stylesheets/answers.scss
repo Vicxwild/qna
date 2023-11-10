@@ -1,3 +1,10 @@
-// Place all the styles related to the Answers controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+.answers {
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+}
+
+.answers .best-answer {
+  border: 2px solid #20c997;
+}
