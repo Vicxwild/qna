@@ -23,6 +23,11 @@ gem "jbuilder", "~> 2.7"
 # gem 'bcrypt', '~> 3.1.7'
 gem "aws-sdk-s3", require: false
 
+# OAuth
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-github"
+
 # UI
 gem "jquery-rails"
 gem "bootstrap", "~> 5.2.00"
