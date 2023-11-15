@@ -21,7 +21,7 @@ div.question
         -if current_user == @question.author
           = link_to "Delete file", file_path(file), method: :delete, remote: true
 
-  -if current_user&.author_of?(@question)
+  -if policy(@question).update?
     .question-control
       p= link_to "Edit question", '#', class: 'edit-question-link', data: { question_id: @question.id }
       p= link_to "Delete question", question_path(@question), method: :delete

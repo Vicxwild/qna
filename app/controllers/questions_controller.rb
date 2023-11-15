@@ -8,10 +8,12 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    authorize @questions
   end
 
   def show
     @question = find_question
+    authorize @question
     @answers = @question.answers.sort_by_best
     @answer = Answer.new
     @answer.links.new
@@ -24,12 +26,14 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    authorize @question
     @question.links.build
     @reward = Reward.new(question: @question)
   end
 
   def create
     @question = Question.new(question_params)
+    authorize @question
     @question.author = current_user
 
     if @question.save
@@ -41,18 +45,15 @@ class QuestionsController < ApplicationController
 
   def update
     @question = find_question
-    @question.update(question_params) if @question.author == current_user
+    authorize @question
+    @question.update(question_params)
   end
 
   def destroy
     @question = find_question
-
-    if @question.author == current_user
-      @question.destroy
-      redirect_to root_path, notice: "Your question successfully deleted."
-    else
-      redirect_to @question, notice: "You can only delete your own question."
-    end
+    authorize @question
+    @question.destroy
+    redirect_to root_path, notice: "Your question successfully deleted."
   end
 
   private
