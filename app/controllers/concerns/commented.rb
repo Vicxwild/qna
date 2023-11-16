@@ -7,13 +7,10 @@ module Commented
   end
 
   def add_comment
+    authorize @commentable, :add_comment?, policy_class: CommentPolicy
     @comment = @commentable.comments.new(comment_params.merge(author: current_user))
-
-    if @comment.save
-      render json: {body: @comment.body, author_email: @comment.author.email}, status: :ok
-    else
-      render json: @comment.errors.messages, status: :unprocessable_entity
-    end
+    @comment.save
+    render json: {body: @comment.body, author_email: @comment.author.email}, status: :ok
   end
 
   private
