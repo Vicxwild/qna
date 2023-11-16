@@ -44,7 +44,7 @@ feature "User can vote for question", "
         find(".dislike").click
       end
 
-      expect(page).to have_content "Author can't vote"
+      expect(page).to have_content "You don't have enough authority"
     end
 
     scenario "can revote for question" do

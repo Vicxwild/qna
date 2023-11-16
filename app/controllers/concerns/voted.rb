@@ -6,20 +6,18 @@ module Voted
   end
 
   def like
+    authorize @voteable, :like?, policy_class: VotePolicy
     vote(1)
   end
 
   def dislike
+    authorize @voteable, :dislike?, policy_class: VotePolicy
     vote(-1)
   end
 
   def revote
-    if @voteable.voted?(current_user)
-      destroy_vote
-    else
-      render json: {error: "You didn't voted for #{kontroller_name}"},
-        status: :unprocessable_entity
-    end
+    authorize @voteable, :revote?, policy_class: VotePolicy
+    destroy_vote
   end
 
   private

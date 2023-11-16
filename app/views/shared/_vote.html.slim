@@ -14,7 +14,8 @@
       = link_to custom_polymorphic_vote_path(voteable, action: :dislike),
         method: :patch,
         class: 'btn btn-outline-danger dislike me-2',
-        remote: true do
+        remote: true,
+        data: { type: 'json' } do
           i.bi.bi-hand-thumbs-down
 
       - classes = 'btn btn-outline-primary revote me-2'
