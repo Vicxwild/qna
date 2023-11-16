@@ -21,11 +21,11 @@ div.answer id="answer_#{answer.id}"
           -if current_user == answer.author
             = link_to "Delete file", file_path(file), method: :delete, remote: true
 
-  -if current_user == answer.author
+  -if policy(answer).update?
     li= link_to "Delete answer", question_answer_path(answer.question, answer), remote: true, method: :delete
     li= link_to "Edit", "#", class: "edit-answer-link", data: { answer_id: answer.id }
 
-  -if current_user == answer.question.author && !answer.best
+  -if policy(answer).best? && !answer.best
     li= link_to "The Best Answer", best_question_answer_path(answer.question ,answer), remote: true, method: :patch
 
   div class=["answer-error-#{answer.id}"]

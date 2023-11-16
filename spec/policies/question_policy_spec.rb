@@ -19,7 +19,7 @@ RSpec.describe QuestionPolicy, type: :policy do
   end
 
   permissions :update?, :destroy? do
-    it "grants access if user is author of question or admin" do
+    it "grants access if user is author of question" do
       expect(subject).to permit(user, create(:question, author_id: user.id))
     end
 
