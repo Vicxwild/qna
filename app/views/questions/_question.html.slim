@@ -18,7 +18,7 @@ div.question
     - @question.files.each do |file|
       p.attachment id="file-#{file.id}"
         = link_to file.filename.to_s, url_for(file)
-        -if current_user == @question.author
+        -if policy(file.record).destroy?
           = link_to "Delete file", file_path(file), method: :delete, remote: true
 
   -if policy(@question).update?
