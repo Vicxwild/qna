@@ -15,7 +15,6 @@ $(document).on('turbolinks:load', function() {
     $('.revote').removeClass('hidden');
   }).on('ajax:error', function(e) {
     const errors = e.detail[0];
-
     $('p.alert').empty();
 
     $.each(errors, function(index, value) {
