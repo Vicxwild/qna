@@ -31,6 +31,9 @@ gem "omniauth"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-github"
 
+# OAuth 2 provider
+gem "doorkeeper"
+
 # UI
 gem "jquery-rails"
 gem "bootstrap", "~> 5.2.00"
