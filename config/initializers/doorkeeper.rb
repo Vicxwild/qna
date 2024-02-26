@@ -22,7 +22,7 @@ Doorkeeper.configure do
     if current_user
       head :forbidden unless current_user.admin?
     else
-      redirect_to sign_in_url
+      redirect_to new_user_session_path
     end
   end
 
@@ -84,13 +84,11 @@ Doorkeeper.configure do
   # enforce_content_type
 
   # Authorization Code expiration time (default: 10 minutes).
-  #
-  # authorization_code_expires_in 10.minutes
+  authorization_code_expires_in 2.hours
 
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
-  #
-  # access_token_expires_in 2.hours
+  access_token_expires_in 24.hours
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
