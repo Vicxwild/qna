@@ -34,6 +34,9 @@ gem "omniauth-github"
 # OAuth 2 provider
 gem "doorkeeper"
 
+# Bridge between the V8 JavaScript engine and Ruby
+gem "mini_racer"
+
 # UI
 gem "jquery-rails"
 gem "bootstrap", "~> 5.2.00"
@@ -64,6 +67,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 6.0.0"
   gem "standard"
+  gem "pry-rails"
 end
 
 group :development do
