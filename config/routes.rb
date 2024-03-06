@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resource :profiles, only: [] do
         get :me, on: :collection # id doesn't include in url (on: :member - include id)
       end
+
+      resources :questions, only: [:index]
     end
   end
 
