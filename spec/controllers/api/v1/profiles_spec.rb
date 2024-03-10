@@ -40,7 +40,7 @@ describe "Profiles API", type: :request do
 
       context "authorized" do
         let(:user_item) { user }
-        let(:response_item) { json_response_body }
+        let(:response_item) { json_response_body["user"] }
 
         before { get api_path, params: {access_token: access_token}, headers: headers }
 
