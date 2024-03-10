@@ -6,32 +6,63 @@ describe "Profiles API", type: :request do
      "ACCEPT" => "application/json"}
   }
 
-  describe "GET /api/v1/profiles/me" do
-    let(:api_path) { "/api/v1/profiles/me" }
-    it_behaves_like "API Authorizable" do
-      let(:method) { :get }
+  shared_examples "public fields returnable" do
+    it "return all" do
+      %w[id email admin created_at updated_at].each do |attr|
+        expect(response_item[attr]).to eq user_item.send(attr).as_json
+      end
+    end
+  end
+
+  shared_examples "private fields not returnable" do
+    it "doesn't return" do
+      %w[password encrypted_password].each do |attr|
+        expect(response_item).not_to have_key(attr)
+      end
+    end
+  end
+
+  describe "GET /api/v1/profiles" do
+    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id).token }
+    let(:method) { :get }
+
+    context "/others" do
+      let(:api_path) { "/api/v1/profiles/others" }
+
+      it_behaves_like "API Authorizable"
+
+      context "authorized" do
+        let!(:users) { create_list(:user, 2) }
+        let(:user_item) { users.first }
+        let(:response_item) { json_response_body["users"].first }
+
+        before { get api_path, params: {access_token: access_token}, headers: headers }
+
+        it_behaves_like "public fields returnable"
+        it_behaves_like "private fields not returnable"
+
+        it "have no current user" do
+          json_response_body["users"].each do |user_response|
+            expect(user_response["id"]).not_to eq user.id
+          end
+        end
+      end
     end
 
-    context "authorized" do
-      let(:me) { create(:user) }
-      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+    context "/me" do
+      let(:api_path) { "/api/v1/profiles/me" }
 
-      before { get api_path, params: {access_token: access_token.token}, headers: headers }
+      it_behaves_like "API Authorizable"
 
-      it "returns 200 status" do
-        expect(response).to be_successful
-      end
+      context "authorized" do
+        let(:user_item) { user }
+        let(:response_item) { json_response_body }
 
-      it "return all public fields" do
-        %w[id email admin created_at updated_at].each do |attr|
-          expect(json_response_body[attr]).to eq me.send(attr).as_json
-        end
-      end
+        before { get api_path, params: {access_token: access_token}, headers: headers }
 
-      it "doesn't return private fields" do
-        %w[password encrypted_password].each do |attr|
-          expect(json_response_body).not_to eq have_key(attr)
-        end
+        it_behaves_like "public fields returnable"
+        it_behaves_like "private fields not returnable"
       end
     end
   end
