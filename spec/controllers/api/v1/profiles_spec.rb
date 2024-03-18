@@ -7,11 +7,11 @@ describe "Profiles API", type: :request do
   }
 
   describe "GET /api/v1/profiles" do
-    let(:user) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: user.id).token }
     let(:method) { :get }
 
     context "/others" do
+      let(:user) { create(:user, admin: true) }
       let(:api_path) { "/api/v1/profiles/others" }
 
       it_behaves_like "API Authorizable"
@@ -31,9 +31,21 @@ describe "Profiles API", type: :request do
           end
         end
       end
+
+      context "user is not an admin" do
+        let(:user) { create(:user) }
+
+        before { get api_path, params: {access_token: access_token}, headers: headers }
+
+        it "returns a 403 Forbidden status" do
+          expect(response.status).to eq(403)
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
     end
 
     context "/me" do
+      let(:user) { create(:user) }
       let(:api_path) { "/api/v1/profiles/me" }
 
       it_behaves_like "API Authorizable"
