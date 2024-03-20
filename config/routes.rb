@@ -35,7 +35,9 @@ Rails.application.routes.draw do
         get :others, on: :collection
       end
 
-      resources :questions, only: %i[index show]
+      resources :questions, only: %i[index show], shallow: true do
+        resources :answers, only: %i[index show]
+      end
     end
   end
 
