@@ -38,6 +38,18 @@ module Api
         end
       end
 
+      def destroy
+        @question = find_question
+
+        authorize @question
+
+        if @question.destroy
+          head :no_content
+        else
+          render json: {errors: @question.errors.full_messages}, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def find_question
