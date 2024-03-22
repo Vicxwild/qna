@@ -10,7 +10,7 @@ module Api
       end
 
       def show
-        @question = Question.find(params[:id])
+        @question = find_question
         render json: @question, serializer: QuestionSerializer
       end
 
@@ -26,7 +26,23 @@ module Api
         end
       end
 
+      def update
+        @question = find_question
+
+        authorize @question
+
+        if @question.update(question_params)
+          render json: @question, serializer: QuestionSerializer
+        else
+          render json: {errors: @question.errors.full_messages}, status: :unprocessable_entity
+        end
+      end
+
       private
+
+      def find_question
+        Question.find(params[:id])
+      end
 
       def question_params
         params.require(:question).permit(:title, :body)

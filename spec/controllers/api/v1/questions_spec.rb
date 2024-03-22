@@ -117,16 +117,22 @@ describe "Questions API", type: :request do
     it_behaves_like "API Authorizable", skip_authorized: true
 
     context "with right attrs" do
+      let(:question_response) { json_response_body["question"] }
+
       before { post api_path, params: request_params, headers: headers }
+
+      it "returns 200 status" do
+        expect(response).to be_successful
+      end
 
       it "returns public fields" do
         %w[id title body created_at].each do |attr|
-          expect(json_response_body["question"]).to have_key(attr)
+          expect(question_response).to have_key(attr)
         end
       end
 
       it "returns entered attributes" do
-        expect(json_response_body["question"]).to include(question_params.stringify_keys)
+        expect(question_response).to include(question_params.stringify_keys)
       end
     end
 
@@ -141,6 +147,52 @@ describe "Questions API", type: :request do
 
       it "returns errors" do
         expect(json_response_body["errors"]).to eq ["Title can't be blank", "Body can't be blank"]
+      end
+    end
+  end
+
+  describe "PATCH /api/v1/questions/:id" do
+    let(:access_token) { create(:access_token, resource_owner_id: user.id).token }
+    let(:user) { create(:user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    let(:method) { :patch }
+    let!(:question) { create(:question, author_id: user.id) }
+    let(:question_params) { {title: "updated title", body: "updated body"} }
+    let(:request_params) { question_params.merge({access_token: access_token}).to_json }
+
+    it_behaves_like "API Authorizable", skip_authorized: true
+
+    context "with right attrs" do
+      let(:question_response) { json_response_body["question"] }
+
+      before { patch api_path, params: request_params, headers: headers }
+
+      it "returns 200 status" do
+        expect(response).to be_successful
+      end
+
+      it "returns public fields" do
+        %w[id title body created_at].each do |attr|
+          expect(question_response).to have_key(attr)
+        end
+      end
+
+      it "returns entered attributes" do
+        expect(question_response).to include(question_params.stringify_keys)
+      end
+    end
+
+    context "with wrong attrs" do
+      let(:request_params) { {title: nil}.merge({access_token: access_token}).to_json }
+
+      before { patch api_path, params: request_params, headers: headers }
+
+      it "responce with unprocessable entity status" do
+        expect(response.status).to eq 422
+      end
+
+      it "returns errors" do
+        expect(json_response_body["errors"]).to eq ["Title can't be blank"]
       end
     end
   end
