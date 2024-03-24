@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        @answer = Answer.find(params[:id])
+        find_answer
 
         render json: @answer, serializer: AnswerSerializer
       end
@@ -24,7 +24,7 @@ module Api
       end
 
       def update
-        @answer = Answer.find(params[:id])
+        find_answer
 
         authorize @answer
 
@@ -33,7 +33,21 @@ module Api
         render_errors
       end
 
+      def destroy
+        find_answer
+
+        authorize @answer
+
+        return head :no_content if @answer.destroy
+
+        render_errors
+      end
+
       private
+
+      def find_answer
+        @answer ||= Answer.find(params[:id])
+      end
 
       def find_question_answers
         Question.find(params[:question_id]).answers

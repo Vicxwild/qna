@@ -197,4 +197,41 @@ describe "Answers API", type: :request do
       end
     end
   end
+
+  describe "DELETE /api/v1/answers/:id" do
+    let(:access_token) { create(:access_token, resource_owner_id: user.id).token }
+    let(:user) { create(:user) }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+    let(:method) { :delete }
+    let!(:answer) { create(:answer, author_id: user.id) }
+
+    it_behaves_like "API Authorizable", skip_authorized: true
+
+    context "with valid user (author)" do
+      before { delete api_path, params: {access_token: access_token}.to_json, headers: headers }
+
+      it "returns 204 status" do
+        expect(response.status).to eq 204
+      end
+
+      it "actually deletes the answer" do
+        expect(Answer.exists?(answer.id)).to be false
+      end
+    end
+
+    context "with invalid user (non-author)" do
+      let(:other_user) { create(:user) }
+      let(:other_user_access_token) { create(:access_token, resource_owner_id: other_user.id).token }
+
+      before { delete api_path, params: {access_token: other_user_access_token}.to_json, headers: headers }
+
+      it "returns 403 Forbidden status" do
+        expect(response.status).to eq 403
+      end
+
+      it "does not delete the answer" do
+        expect(Answer.exists?(answer.id)).to be true
+      end
+    end
+  end
 end
