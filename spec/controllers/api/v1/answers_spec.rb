@@ -106,4 +106,49 @@ describe "Answers API", type: :request do
       end
     end
   end
+
+  describe "POST api/v1/questions/:question_id/answers" do
+    let(:access_token) { create(:access_token).token }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+    let(:method) { :post }
+    let(:answer_params) { {body: "new body"} }
+    let(:request_params) { answer_params.merge({access_token: access_token}).to_json }
+    let!(:question) { create(:question) }
+
+    it_behaves_like "API Authorizable", skip_authorized: true
+
+    context "with right attrs" do
+      let(:answer_response) { json_response_body["answer"] }
+
+      before { post api_path, params: request_params, headers: headers }
+
+      it "returns 200 status" do
+        expect(response).to be_successful
+      end
+
+      it "returns public fields" do
+        %w[id body created_at].each do |attr|
+          expect(answer_response).to have_key(attr)
+        end
+      end
+
+      it "returns entered attributes" do
+        expect(answer_response).to include(answer_params.stringify_keys)
+      end
+    end
+
+    context "with wrong attrs" do
+      let(:request_params) { {body: nil}.merge({access_token: access_token}).to_json }
+
+      before { post api_path, params: request_params, headers: headers }
+
+      it "responce with unprocessable entity status" do
+        expect(response.status).to eq 422
+      end
+
+      it "returns errors" do
+        expect(json_response_body["errors"]).to eq ["Body can't be blank"]
+      end
+    end
+  end
 end
