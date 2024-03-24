@@ -31,6 +31,12 @@ gem "omniauth"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-github"
 
+# OAuth 2 provider
+gem "doorkeeper"
+
+# Bridge between the V8 JavaScript engine and Ruby
+gem "mini_racer"
+
 # UI
 gem "jquery-rails"
 gem "bootstrap", "~> 5.2.00"
@@ -52,8 +58,14 @@ gem "cocoon"
 # URL validation
 gem "validate_url"
 
-# Send variablei to js files
+# Send variables to js files
 gem "gon", "~> 6.1"
+
+# Allows you to generate JSON in an object-oriented and convention-driven manner
+gem "active_model_serializers", "~> 0.10"
+
+# Optimize conversion to json
+gem "oj"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -61,6 +73,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 6.0.0"
   gem "standard"
+  gem "pry-rails"
 end
 
 group :development do

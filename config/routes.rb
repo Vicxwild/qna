@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+
   devise_for :users, controllers: {omniauth_callbacks: "oauth_callbacks"}
 
   root to: "questions#index"
@@ -25,6 +27,19 @@ Rails.application.routes.draw do
 
   resources :files, only: :destroy
   resources :rewards, only: :index
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection # id doesn't include in url (on: :member - include id)
+        get :others, on: :collection
+      end
+
+      resources :questions, only: %i[index show create update destroy], shallow: true do
+        resources :answers, only: %i[index show create update destroy]
+      end
+    end
+  end
 
   mount ActionCable.server => "/cable"
 end
