@@ -37,8 +37,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :questions, only: %i[index show create update destroy], shallow: true do
-        resources :answers, only: %i[index show create update destroy]
+      resources :questions, except: %i[new edit], shallow: true do
+        resources :answers, except: %i[new edit]
       end
     end
   end
