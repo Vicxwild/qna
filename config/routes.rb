@@ -31,12 +31,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :profiles do
-        get :me, on: :collection # id doesn't include in url (on: :member - include id)
-        get :others, on: :collection
+        collection do
+          get :me
+          get :others
+        end
       end
 
-      resources :questions, only: %i[index show create update destroy], shallow: true do
-        resources :answers, only: %i[index show create update destroy]
+      resources :questions, except: %i[new edit], shallow: true do
+        resources :answers, except: %i[new edit]
       end
     end
   end

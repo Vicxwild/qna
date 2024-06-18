@@ -4,15 +4,14 @@ module Api
       def others
         authorize User, policy_class: ProfilePolicy
 
-        @users = User.where.not(id: current_resource_owner.id)
+        @users = User.where.not(id: current_user.id)
         render json: @users, each_serializer: UserSerializer
       end
 
       def me
         authorize User, policy_class: ProfilePolicy
 
-        #  current_user is unavailable - it's Devise method
-        render json: current_resource_owner, serializer: UserSerializer
+        render json: current_user, serializer: UserSerializer
       end
     end
   end

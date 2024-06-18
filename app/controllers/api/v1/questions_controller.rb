@@ -5,8 +5,6 @@ module Api
         @questions = Question.all
 
         render json: @questions, each_serializer: QuestionSerializer
-        # render json: @questions - searching QuestionSerializer automatically
-        # render json: @questions.to_json(include: :answers) # to_json(include: :answers) adds associations to current object
       end
 
       def show
@@ -17,7 +15,7 @@ module Api
       def create
         authorize Question
 
-        @question = Question.new(question_params.merge(author: current_resource_owner))
+        @question = Question.new(question_params.merge(author: current_user))
 
         if @question.save
           render json: @question, serializer: QuestionSerializer
