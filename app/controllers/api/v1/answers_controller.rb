@@ -16,7 +16,7 @@ module Api
       def create
         authorize Answer
 
-        @answer = find_question_answers.new(answer_params.merge(author: current_resource_owner))
+        @answer = find_question_answers.new(answer_params.merge(author: current_user))
 
         return render_answer if @answer.save
 
