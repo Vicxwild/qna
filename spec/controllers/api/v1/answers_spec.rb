@@ -221,14 +221,15 @@ describe "Answers API", type: :request do
     it_behaves_like "API Authorizable", skip_authorized: true
 
     context "with valid user (author)" do
-      before { delete api_path, params: {access_token: access_token}, headers: headers, as: :json }
+      subject { delete api_path, params: {access_token: access_token}, headers: headers, as: :json }
 
       it "returns 204 status" do
+        subject
         expect(response.status).to eq 204
       end
 
       it "actually deletes the answer" do
-        expect(Answer.exists?(answer.id)).to be false
+        expect { subject }.to change(Answer, :count).by(-1)
       end
     end
 
@@ -236,14 +237,15 @@ describe "Answers API", type: :request do
       let(:other_user) { create(:user) }
       let(:other_user_access_token) { create(:access_token, resource_owner_id: other_user.id).token }
 
-      before { delete api_path, params: {access_token: other_user_access_token}, headers: headers, as: :json }
+      subject { delete api_path, params: {access_token: other_user_access_token}, headers: headers, as: :json }
 
       it "returns 403 Forbidden status" do
+        subject
         expect(response.status).to eq 403
       end
 
       it "does not delete the answer" do
-        expect(Answer.exists?(answer.id)).to be true
+        expect { subject }.to_not change Answer, :count
       end
     end
   end
