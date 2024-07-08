@@ -59,48 +59,48 @@ describe "Questions API", type: :request do
       end
 
       describe "comments" do
-        let(:comments_responce) { question_response["comments"] }
-        let(:comment_responce) { question_response["comments"].first }
+        let(:comments_response) { question_response["comments"] }
+        let(:comment_response) { question_response["comments"].first }
 
         it "contains list of comments" do
-          expect(comments_responce.count).to eq 2
+          expect(comments_response.count).to eq 2
         end
 
         it "returns all fields" do
           %w[id body created_at updated_at].each do |attr|
-            expect(comment_responce[attr]).to eq question.comments.first.send(attr).as_json
+            expect(comment_response[attr]).to eq question.comments.first.send(attr).as_json
           end
         end
 
         it "returns author object" do
-          expect(comment_responce["author"]["id"]).to eq question.comments.first.author_id
+          expect(comment_response["author"]["id"]).to eq question.comments.first.author_id
         end
       end
 
       describe "links" do
-        let(:links_responce) { question_response["links_list"].first }
+        let(:links_response) { question_response["links_list"].first }
 
         it "contains list of links" do
-          expect(links_responce.count).to eq 2
+          expect(links_response.count).to eq 2
         end
 
         it "returns all fields" do
           %w[name url].each do |attr|
-            expect(links_responce[attr]).to eq question.links.first.send(attr).as_json
+            expect(links_response[attr]).to eq question.links.first.send(attr).as_json
           end
         end
       end
 
       describe "files" do
-        let(:files_responce) { question_response["files_list"].first }
+        let(:files_response) { question_response["files_list"].first }
 
         it "contains list of links" do
-          expect(files_responce.count).to eq 2
+          expect(files_response.count).to eq 2
         end
 
         it "returns all fields" do
           %w[name url].each do |attr|
-            expect(files_responce).to have_key(attr)
+            expect(files_response).to have_key(attr)
           end
         end
       end
@@ -141,7 +141,7 @@ describe "Questions API", type: :request do
 
       before { post api_path, params: request_params, headers: headers }
 
-      it "responce with unprocessable entity status" do
+      it "response with unprocessable entity status" do
         expect(response.status).to eq 422
       end
 
@@ -187,7 +187,7 @@ describe "Questions API", type: :request do
 
       before { patch api_path, params: request_params, headers: headers }
 
-      it "responce with unprocessable entity status" do
+      it "response with unprocessable entity status" do
         expect(response.status).to eq 422
       end
 
