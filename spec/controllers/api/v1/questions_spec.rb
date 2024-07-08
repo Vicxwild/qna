@@ -185,13 +185,15 @@ describe "Questions API", type: :request do
     context "with wrong attrs" do
       let(:request_params) { {title: nil}.merge({access_token: access_token}).to_json }
 
-      before { patch api_path, params: request_params, headers: headers }
+      subject { patch api_path, params: request_params, headers: headers }
 
       it "response with unprocessable entity status" do
+        subject
         expect(response.status).to eq 422
       end
 
       it "returns errors" do
+        subject
         expect(json_response_body["errors"]).to eq ["Title can't be blank"]
       end
     end
