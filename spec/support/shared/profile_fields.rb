@@ -1,8 +1,12 @@
 shared_examples "fields returnable" do
   it "all public" do
-    %w[id email admin created_at updated_at].each do |attr|
-      expect(response_item[attr]).to eq user_item.send(attr).as_json
-    end
+    expect(response_item).to include(
+      "id" => user_item.id,
+      "email" => user_item.email,
+      "admin" => user_item.admin,
+      "created_at" => user_item.created_at.as_json,
+      "updated_at" => user_item.updated_at.as_json
+    )
   end
 
   it "not private" do

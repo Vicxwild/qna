@@ -7,10 +7,10 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def me?
-    user&.present?
+    user.present?
   end
 
   def others?
-    user&.admin?
+    user.admin?
   end
 end
