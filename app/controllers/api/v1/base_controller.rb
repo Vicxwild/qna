@@ -9,16 +9,16 @@ module Api
 
       private
 
-      def current_resource_owner
+      def current_user
         return unless doorkeeper_token
 
-        @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id)
+        @current_user ||= User.find(doorkeeper_token.resource_owner_id)
       end
 
       private
 
       def pundit_user
-        current_resource_owner
+        current_user
       end
     end
   end
