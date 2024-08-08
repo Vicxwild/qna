@@ -1,13 +1,8 @@
 module Questions
-  class DailyDigestService
-    def call
-      questions = ActiveModelSerializers::SerializableResource.new(
-        Question.last_day_created,
-        each_serializer: QuestionDigestSerializer
-      ).as_json
-
+  class DailyDigest
+    def send_digest
       User.find_each(batch_size: 500) do |user|
-        DailyDigestMailer.send_digest(user, questions).deliver_later
+        DailyDigestMailer.digest(user).deliver_later
       end
     end
   end
