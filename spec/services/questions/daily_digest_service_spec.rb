@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Questions::DailyDigest do
+RSpec.describe Questions::DailyDigestService do
   let(:users) { create_list(:user, 3) }
   let(:questions) { create_list(:question, 2) }
 
